@@ -14,11 +14,11 @@ function App() {
   }
   return (
     <div className='flex items-center w-screen h-screen justify-center'>
-      <div className='urlUpload border-2 h-screen w-[60%] p-20 border-blue-500'>
+      <div className='urlUpload border-5 h-screen w-[60%] p-20 border-blue-500'>
         <UrlInput handleUrlSubmit={handleUrlSubmit} url={url} setUrl={setUrl} />
         <Costumize isOpen={consutmize} />
       </div>
-      <div className='qrPreview border-2 h-screen w-[40%] border-red-500'>
+      <div className='qrPreview p-20 border-5 h-screen w-[40%] border-red-500'>
         <QrPreview url={url} qrColor={color} />
       </div>
     </div>

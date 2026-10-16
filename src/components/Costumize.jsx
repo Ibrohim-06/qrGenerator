@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import ColorPeakerQr from "./ColorPeakerQr";
 import ImageUpload from "./ImageUpload";
 import { Context } from "../context";
+import QrShape from "./QrShape";
 
 const Costumize = ({ isOpen }) => {
     const { setColor, logo, setLogo } = useContext(Context)
@@ -9,7 +10,10 @@ const Costumize = ({ isOpen }) => {
     return (
         <div
             className={`${isOpen ? "h-75" : "h-0 overflow-hidden border-none"} mt-10  duration-500`}>
-            <ColorPeakerQr setColor={setColor} />
+            <div>
+                <ColorPeakerQr setColor={setColor} />
+                <QrShape/>
+            </div>
 
             <ImageUpload setLogo={setLogo} />
 
