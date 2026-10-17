@@ -16,7 +16,7 @@ const ColorPeakerQr = () => {
   return (
     <div className="flex justify-center items-center gap-4 mb-4">
       <CirclePicker
-        colors={["#0400FF", "green", "red", "yellow", "darkblue", "purple"]}
+        colors={["#0400FF", "green", "red", "#328CEC", "darkblue", "purple"]}
         circleSize={30}
         circleSpacing={5}
         onChange={handleColorChange}
