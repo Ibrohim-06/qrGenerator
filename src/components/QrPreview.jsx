@@ -84,7 +84,7 @@ const QrPreview = ({ url, qrColor, bgColor }) => {
   const downloadQR = () => {
     if (!url) return;
 
-    const downloadQr = createQR(1094);
+    const downloadQr = createQR(1098);
 
     downloadQr.download({
       name: "qr-code",
@@ -97,7 +97,7 @@ const QrPreview = ({ url, qrColor, bgColor }) => {
       {url ? (
         <div
           ref={containerRef}
-          className="h-[400px] w-[400px] overflow-hidden"
+          className="h-100 w-100 overflow-hidden"
         />
       ) : (
         <p className="text-gray-500">
