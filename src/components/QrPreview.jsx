@@ -8,48 +8,65 @@ const QrPreview = ({ url, qrColor, bgColor }) => {
 
   const { logo, color, qrShape } = useQr();
 
-  const getQrOptions = (size) => ({
-    width: size,
-    height: size,
-    type: "canvas",
-    data: url,
-    margin: 30,
+  const shapeMap = {
+    square: "square",
+    dots: "dots",
+    rounded: "rounded",
+    "extra-rounded": "extra-rounded",
+    classy: "classy",
+    "classy-rounded": "classy-rounded",
+  };
 
-    qrOptions: {
-      errorCorrectionLevel: "H",
-    },
+  const createQR = (size) => {
+    return new QRCodeStyling({
+      width: size,
+      height: size,
+      type: "canvas",
+      data: url,
 
-    dotsOptions: {
-      color: color || qrColor || "#000000",
-      type: qrShape || "square",
-    },
+      margin: 30,
 
-    backgroundOptions: {
-      color: bgColor || "#ffffff",
-    },
+      qrOptions: {
+        errorCorrectionLevel: "H",
+      },
 
-    image: logo || undefined,
+      dotsOptions: {
+        color: color || qrColor || "#000000",
+        type: shapeMap[qrShape] || "square",
+      },
 
-    imageOptions: {
-      crossOrigin: "anonymous",
-      imageSize: 0.25,
-      margin: 2,
-      hideBackgroundDots: false,
-    },
-  });
+      backgroundOptions: {
+        color: bgColor || "#ffffff",
+      },
 
+      image: logo || undefined,
+
+      imageOptions: {
+        crossOrigin: "anonymous",
+        imageSize: 0.3,
+        margin: 1,
+        hideBackgroundDots: false,
+      },
+    });
+  };
+
+  // Generate preview QR
   useEffect(() => {
     const container = containerRef.current;
 
     if (!container || !url) {
-      if (container) container.innerHTML = "";
+      if (container) {
+        container.innerHTML = "";
+      }
+
       qrRef.current = null;
       return;
     }
 
-    const qrCode = new QRCodeStyling(getQrOptions(400));
+    const qrCode = createQR(400);
 
     container.innerHTML = "";
+
     qrCode.append(container);
 
     qrRef.current = qrCode;
@@ -63,12 +80,13 @@ const QrPreview = ({ url, qrColor, bgColor }) => {
     };
   }, [url, color, qrColor, bgColor, logo, qrShape]);
 
-  const downloadQR = async () => {
+  // Generate a NEW high-resolution QR for download
+  const downloadQR = () => {
     if (!url) return;
 
-    const downloadQr = new QRCodeStyling(getQrOptions(800));
+    const downloadQr = createQR(1094);
 
-    await downloadQr.download({
+    downloadQr.download({
       name: "qr-code",
       extension: "png",
     });
