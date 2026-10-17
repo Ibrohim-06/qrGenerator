@@ -8,6 +8,36 @@ const QrPreview = ({ url, qrColor, bgColor }) => {
 
   const { logo, color, qrShape } = useQr();
 
+  const getQrOptions = (size) => ({
+    width: size,
+    height: size,
+    type: "canvas",
+    data: url,
+    margin: 30,
+
+    qrOptions: {
+      errorCorrectionLevel: "H",
+    },
+
+    dotsOptions: {
+      color: color || qrColor || "#000000",
+      type: qrShape || "square",
+    },
+
+    backgroundOptions: {
+      color: bgColor || "#ffffff",
+    },
+
+    image: logo || undefined,
+
+    imageOptions: {
+      crossOrigin: "anonymous",
+      imageSize: 0.25,
+      margin: 2,
+      hideBackgroundDots: false,
+    },
+  });
+
   useEffect(() => {
     const container = containerRef.current;
 
@@ -17,44 +47,7 @@ const QrPreview = ({ url, qrColor, bgColor }) => {
       return;
     }
 
-    const shapeMap = {
-      square: "square",
-      dots: "dots",
-      rounded: "rounded",
-      "extra-rounded": "extra-rounded",
-      classy: "classy",
-      "classy-rounded": "classy-rounded",
-    };
-
-    const qrCode = new QRCodeStyling({
-      width: 400,
-      height: 400,
-      type: "canvas",
-      data: url,
-      margin: 30,
-
-      qrOptions: {
-        errorCorrectionLevel: "H",
-      },
-
-      dotsOptions: {
-        color: color || qrColor || "#000000",
-        type: shapeMap[qrShape] || "square",
-      },
-
-      backgroundOptions: {
-        color: bgColor || "#ffffff",
-      },
-
-      image: logo || undefined,
-
-      imageOptions: {
-        crossOrigin: "anonymous",
-        imageSize: 0.3,
-        margin: 1,
-        hideBackgroundDots: false,
-      },
-    });
+    const qrCode = new QRCodeStyling(getQrOptions(400));
 
     container.innerHTML = "";
     qrCode.append(container);
@@ -70,10 +63,12 @@ const QrPreview = ({ url, qrColor, bgColor }) => {
     };
   }, [url, color, qrColor, bgColor, logo, qrShape]);
 
-  const downloadQR = () => {
-    if (!url || !qrRef.current) return;
+  const downloadQR = async () => {
+    if (!url) return;
 
-    qrRef.current.download({
+    const downloadQr = new QRCodeStyling(getQrOptions(800));
+
+    await downloadQr.download({
       name: "qr-code",
       extension: "png",
     });
@@ -84,7 +79,7 @@ const QrPreview = ({ url, qrColor, bgColor }) => {
       {url ? (
         <div
           ref={containerRef}
-          className="aspect-square w-full max-w-100 overflow-hidden"
+          className="h-[400px] w-[400px] overflow-hidden"
         />
       ) : (
         <p className="text-gray-500">
@@ -96,7 +91,8 @@ const QrPreview = ({ url, qrColor, bgColor }) => {
         type="button"
         onClick={downloadQR}
         disabled={!url}
-        className="rounded-lg bg-black px-5 py-2 text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50">
+        className="rounded-lg bg-black px-5 py-2 text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+      >
         Download QR
       </button>
     </div>
