@@ -50,9 +50,9 @@ const QrPreview = ({ url, qrColor, bgColor }) => {
 
       imageOptions: {
         crossOrigin: "anonymous",
-        imageSize: 0.4,
-        margin: 2,
-        hideBackgroundDots: true,
+        imageSize: 4,
+        margin: 1,
+        hideBackgroundDots: false,
       },
     });
 
@@ -96,8 +96,7 @@ const QrPreview = ({ url, qrColor, bgColor }) => {
         type="button"
         onClick={downloadQR}
         disabled={!url}
-        className="rounded-lg bg-black px-5 py-2 text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
-      >
+        className="rounded-lg bg-black px-5 py-2 text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50">
         Download QR
       </button>
     </div>
