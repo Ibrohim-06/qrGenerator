@@ -50,7 +50,7 @@ const QrPreview = ({ url, qrColor, bgColor }) => {
 
       imageOptions: {
         crossOrigin: "anonymous",
-        imageSize: 4,
+        imageSize: 0.6,
         margin: 1,
         hideBackgroundDots: false,
       },
